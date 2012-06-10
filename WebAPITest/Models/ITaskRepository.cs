@@ -7,6 +7,8 @@ namespace WebAPITest.Models
 {
     public interface ITaskRepository : IRepository<Task>
     {
+        IEnumerable<Task> GetAllTasks();
+        
         Task GetByDate(DateTime queryDate);
     }
 }

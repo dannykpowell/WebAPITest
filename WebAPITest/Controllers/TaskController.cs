@@ -25,9 +25,20 @@ namespace WebAPITest.Controllers
             Task task = _repository.GetByDate(taskdate);
             if (task == null)
             {
-                throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.Unauthorized));
+                return new Task {Primary = "not found", Secondary = "not found", TaskDate = taskdate, TaskId = 0};
+                //throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.Unauthorized));
             }
             return task;
+        }
+
+        public IEnumerable<Task> GetAllTasks()
+        {
+            var tasks = _repository.List();
+            if (tasks == null)
+            {
+                throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.Unauthorized));
+            }
+            return tasks;
         }
     }
 }

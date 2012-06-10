@@ -7,6 +7,8 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using Microsoft.Practices.Unity;
+using Raven.Client;
+using Raven.Client.Document;
 using WebAPITest.Controllers;
 using WebAPITest.Models;
 
@@ -31,11 +33,22 @@ namespace WebAPITest
         private void RegisterDependencies()
         {
             IUnityContainer container = new UnityContainer();
+
             container.RegisterType<TaskController>();
-            container.RegisterType<ITaskRepository, TaskRepository>(
+
+            container.RegisterType<IDocumentStore, DocumentStore>(
                 new HierarchicalLifetimeManager());
+
+            container.RegisterInstance<DocumentStore>(DataDocumentStore.Initialize());
+
+            container.RegisterType<ITaskRepository, TaskRepository>(
+                new InjectionConstructor(container.Resolve<IDocumentStore>()));
+
+            //container.RegisterType<ITaskRepository, TaskRepository>(
+            //    new HierarchicalLifetimeManager());
+
             GlobalConfiguration.Configuration.DependencyResolver = new IoCContainer(container);
-            
+
         }
     }
 }

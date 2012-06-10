@@ -16,7 +16,7 @@ namespace WebAPITest.Models
 
         public IDependencyScope BeginScope()
         {
-            var child = container.CreateChildContainer();
+            var child = Container.CreateChildContainer();
             return new ScopeContainer(child);
         }
     }

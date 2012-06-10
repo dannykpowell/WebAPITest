@@ -9,7 +9,7 @@ namespace WebAPITest.Models
 {
     public class ScopeContainer : IDependencyScope
     {
-        protected IUnityContainer container;
+        protected IUnityContainer Container;
 
         public ScopeContainer(IUnityContainer container)
         {
@@ -17,14 +17,14 @@ namespace WebAPITest.Models
             {
                 throw new ArgumentNullException("container");
             }
-            this.container = container;
+            this.Container = container;
         }
 
         public object GetService(Type serviceType)
         {
-            if (container.IsRegistered(serviceType))
+            if (Container.IsRegistered(serviceType))
             {
-                return container.Resolve(serviceType);
+                return Container.Resolve(serviceType);
             }
             else
             {
@@ -34,9 +34,9 @@ namespace WebAPITest.Models
 
         public IEnumerable<object> GetServices(Type serviceType)
         {
-            if (container.IsRegistered(serviceType))
+            if (Container.IsRegistered(serviceType))
             {
-                return container.ResolveAll(serviceType);
+                return Container.ResolveAll(serviceType);
             }
             else
             {
@@ -46,7 +46,7 @@ namespace WebAPITest.Models
 
         public void Dispose()
         {
-            container.Dispose();
+            Container.Dispose();
         }
     }
 }
